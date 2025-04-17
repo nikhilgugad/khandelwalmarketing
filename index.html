@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Khandelwal Store management App</title>
+  <link href="./output.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .action-btn {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      color: white;
+      font-size: 0.875rem;
+      border: none;
+      cursor: pointer;
+    }
+    .sell-btn {
+      background-color: #3b82f6;
+    }
+    .delete-btn {
+      background-color: #ef4444;
+    }
+    .sales-btn {
+      background-color: #6b7280;
+    }
+    .all-sales-btn {
+      background-color: #8b5cf6;
+    }
+    .add-quantity-btn {
+      background-color: #10b981;
+    }
+    .action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">Khandelwal Stock Management</h1>
+
+    <!-- Product Form -->
+    <div class="bg-white p-4 rounded-xl shadow mb-6">
+      <h2 class="text-xl font-semibold mb-4">Add New Product</h2>
+      <form id="productForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <input type="text" id="name" placeholder="Product Name" class="border rounded p-2" required />
+        <input type="text" id="model" placeholder="Model" class="border rounded p-2" required />
+        <input type="number" id="quantity" placeholder="Quantity" class="border rounded p-2" required min="1" />
+        <input type="number" id="price" placeholder="Price" class="border rounded p-2" required min="0" />
+        <input type="text" id="category" placeholder="Category (optional)" class="border rounded p-2" />
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Product</button>
+      </form>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold">Inventory</h2>
+        <div class="flex gap-2">
+          <button onclick="viewAllSales()" class="all-sales-btn text-white px-4 py-2 rounded">
+            View All Sales
+          </button>
+          <button onclick="downloadInventoryPDF()" class="bg-green-600 text-white px-4 py-2 rounded">
+            Download Inventory PDF
+          </button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left border" id="inventoryTable">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-2 border">Name</th>
+              <th class="p-2 border">Model</th>
+              <th class="p-2 border">Quantity</th>
+              <th class="p-2 border">Price</th>
+              <th class="p-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sell Modal -->
+  <div id="sellModal" class="fixed inset-0 bg-black/50 flex justify-center items-center hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Sell Product</h2>
+      <form id="sellForm" class="grid gap-3">
+        <input type="text" id="customerName" placeholder="Customer Name" class="border p-2 rounded" required />
+        <input type="text" id="customerAddress" placeholder="Address" class="border p-2 rounded" required />
+        <input type="number" id="amountPaid" placeholder="Amount Paid" class="border p-2 rounded" required min="0" />
+        <select id="paymentType" class="border p-2 rounded" required>
+          <option value="">Select Payment Type</option>
+          <option value="Cash">Cash</option>
+          <option value="Online">Online</option>
+          <option value="EMI">EMI</option>
+        </select>
+        <input type="number" id="downPayment" placeholder="Down Payment (for EMI)" class="border p-2 rounded hidden" />
+        <div class="flex justify-end gap-2 mt-2">
+          <button type="button" onclick="closeSellModal()" class="text-gray-600 px-4 py-1 rounded border">Cancel</button>
+          <button type="submit" class="bg-blue-600 text-white px-4 py-1 rounded">Confirm Sell</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Quantity Modal -->
+  <div id="addQuantityModal" class="fixed inset-0 bg-black/50 flex justify-center items-center hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Add Quantity</h2>
+      <form id="addQuantityForm" class="grid gap-3">
+        <input type="number" id="addQuantity" placeholder="Quantity to add" class="border p-2 rounded" required min="1" />
+        <div class="flex justify-end gap-2 mt-2">
+          <button type="button" onclick="closeAddQuantityModal()" class="text-gray-600 px-4 py-1 rounded border">Cancel</button>
+          <button type="submit" class="bg-green-600 text-white px-4 py-1 rounded">Add Quantity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS script -->
+  <script src="script.js" defer></script>
+</body>
+</html>

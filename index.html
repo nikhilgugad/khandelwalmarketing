@@ -7,21 +7,6 @@
   <link href="./output.css" rel="stylesheet" />
   <link rel="manifest" href="./manifest.json" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>
-    if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then((registration) => {
-        console.log("ServiceWorker registered:", registration);
-      })
-      .catch((error) => {
-        console.log("ServiceWorker registration failed:", error);
-      });
-  });
-}
-
-  </script>
   <style>
     .action-buttons {
       display: flex;

@@ -1,3 +1,15 @@
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) => {
+        console.log("ServiceWorker registered:", registration);
+      })
+      .catch((error) => {
+        console.log("ServiceWorker registration failed:", error);
+      });
+  });
+}
 let products = JSON.parse(localStorage.getItem("inventory")) || [];
 const form = document.getElementById("productForm");
 const inventoryBody = document.getElementById("inventoryBody");
